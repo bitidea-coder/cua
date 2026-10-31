@@ -293,6 +293,7 @@ pub(crate) async fn finish_window_observation(
         .get("_skip_window_change_detection")
         .and_then(serde_json::Value::as_bool)
         .unwrap_or(false)
+        || std::env::var_os("CUA_DRIVER_SKIP_WINDOW_CHANGE_DETECTION").is_some_and(|value| value == "1")
     {
         drop(snapshot);
         crate::window_change_detector::Changes::no_change()
